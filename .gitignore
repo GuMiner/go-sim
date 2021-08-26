@@ -5,6 +5,13 @@
 *.so
 *.dylib
 
+# CGO binaries
+*.exp
+*.lib
+
+# VSCode settings
+.vscode
+
 # Test binary, built with `go test -c`
 *.test
 
