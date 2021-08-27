@@ -9,6 +9,9 @@
 *.exp
 *.lib
 
+# Autosave files
+*.gob
+
 # VSCode settings
 .vscode
 
