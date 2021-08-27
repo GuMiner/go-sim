@@ -30,3 +30,7 @@ func LookupColor(percent float32) mgl32.Vec3 {
 
 	return colorGradient[id]
 }
+
+func GetGradient() []mgl32.Vec3 {
+	return colorGradient
+}

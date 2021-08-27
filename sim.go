@@ -7,7 +7,11 @@ import (
 	"sim/common/opengl/renderer"
 	"sim/common/opengl/shadow"
 	"sim/common/opengl/text"
+
+	"sim/diagnostics/fractal"
+
 	"sim/config"
+	"sim/input"
 
 	"fmt"
 	"runtime"
@@ -30,6 +34,13 @@ func init() {
 	runtime.LockOSThread()
 }
 
+func setInputCallbacks(window *glfw.Window) {
+	window.SetFramebufferSizeCallback(opengl.ResizeViewport)
+	window.SetCursorPosCallback(input.HandleMouseMove)
+	window.SetMouseButtonCallback(input.HandleMouseButton)
+	window.SetKeyCallback(input.HandleKeyInput)
+}
+
 func main() {
 	config.Load("./data/config/sim.json", "./data/config/common.json")
 	opengl.InitGlfw()
@@ -46,7 +57,7 @@ func main() {
 
 	window.MakeContextCurrent()
 
-	// setInputCallbacks(window)
+	setInputCallbacks(window)
 	opengl.ConfigureOpenGl()
 
 	// Test CUDA
@@ -71,7 +82,7 @@ func main() {
 	defer textRenderer.Delete()
 
 	fpsSentence := text.NewSentence(textRenderer, mgl32.Vec3{0, 0, 0}, mgl32.Vec3{0, 1, 0})
-	fpsCounter := NewFpsCounter(fpsSentence, 1.0, mgl32.Vec3{-0.42, 0.33, 0.01})
+	fpsCounter := NewFpsCounter(fpsSentence, 1.0, mgl32.Vec3{0, 0, 0.01}) // -0.42, 0.33
 
 	var renderers []renderer.Renderer
 	renderers = append(renderers, textRenderer)
@@ -81,6 +92,10 @@ func main() {
 		config.Config.Camera.GetDefaultForwards(),
 		config.Config.Camera.GetDefaultUp())
 	defer camera.AutosavePosition()
+
+	// Diagnostics
+	fractal := fractal.NewFullScreenFractal()
+	defer fractal.Delete()
 
 	// Update
 	startTime := time.Now()
@@ -94,6 +109,7 @@ func main() {
 		frameTime = elapsed - lastElapsed
 
 		fpsCounter.Update(frameTime)
+		fractal.Update(elapsed)
 		//opengl.CheckWireframeToggle()
 		//diagnostics.CheckDebugToggle()
 		//vehicle.CheckColorOverlayToggle()
@@ -110,6 +126,7 @@ func main() {
 		//RenderSimulation(voxelArrayObjectRenderer)
 
 		//if isFpsEnabled {
+		fractal.Render()
 		fpsCounter.Render(camera)
 		//}
 

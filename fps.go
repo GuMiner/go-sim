@@ -47,6 +47,8 @@ func (f *FpsCounter) Update(frameTime float32) {
 func (f *FpsCounter) Render(camera *Camera) {
 	fpsString := fmt.Sprintf("FPS: %.2f", f.currentFps)
 
+	// TODO figure out why this doesn't inverse properly and stay in one spot.
+	// OR, make a 2D text feature...
 	// Put the text in front of the camera, scaled appropriately.
 	objectPos := camera.Position.Add(camera.Forwards.Mul(1))
 	frontOfCamera := mgl32.Translate3D(objectPos.X(), objectPos.Y(), objectPos.Z())
