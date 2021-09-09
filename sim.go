@@ -4,6 +4,8 @@ import (
 	"sim/common/color"
 	commonConfig "sim/common/config"
 	"sim/common/opengl"
+	"sim/common/opengl/basics"
+	"sim/common/opengl/geometry"
 	"sim/common/opengl/renderer"
 	"sim/common/opengl/shadow"
 	"sim/common/opengl/text"
@@ -60,6 +62,9 @@ func main() {
 	setInputCallbacks(window)
 	opengl.ConfigureOpenGl()
 
+	input.LoadKeyAssignments()
+	defer input.SaveKeyAssignments()
+
 	// Test CUDA
 	a := []C.float{-1, 2, 4, 0, 5, 3, 6, 2, 1}
 	b := []C.float{3, 0, 2, 3, 4, 5, 4, 7, 2}
@@ -70,9 +75,6 @@ func main() {
 	shadowBuffer := shadow.NewShadowBuffer()
 	defer shadowBuffer.Delete()
 
-	// commonDiagnostics.InitCube()
-	// defer commonDiagnostics.DeleteCube()
-
 	color.InitializeColorGradient(
 		commonConfig.Config.ColorGradient.Steps,
 		commonConfig.Config.ColorGradient.Saturation,
@@ -81,11 +83,23 @@ func main() {
 	textRenderer := text.NewTextRenderer(commonConfig.Config.Text.FontFile)
 	defer textRenderer.Delete()
 
+	// Really bad flat renderer with parameters that belong on models
+	flatRenderer := basics.NewFlatRendererProgram()
+	defer flatRenderer.Delete()
+
+	flatRenderer.SetColor(mgl32.Vec3{0.0, 1.0, 0.0})
+
+	modelMatrix := mgl32.Scale3D(10.0, 10.0, 10.0)
+	flatRenderer.SetModel(&modelMatrix)
+
+	test_cube := geometry.NewCube()
+	defer test_cube.Delete()
+
 	fpsSentence := text.NewSentence(textRenderer, mgl32.Vec3{0, 0, 0}, mgl32.Vec3{0, 1, 0})
-	fpsCounter := NewFpsCounter(fpsSentence, 1.0, mgl32.Vec3{0, 0, 0.01}) // -0.42, 0.33
+	fpsCounter := NewFpsCounter(fpsSentence, 1.0, mgl32.Vec3{-0.4, 0.4, 0.01}) // -0.42, 0.33
 
 	var renderers []renderer.Renderer
-	renderers = append(renderers, textRenderer)
+	renderers = append(renderers, textRenderer, flatRenderer)
 
 	camera := NewCamera(
 		config.Config.Camera.GetDefaultPos(),
@@ -110,8 +124,6 @@ func main() {
 
 		fpsCounter.Update(frameTime)
 		fractal.Update(elapsed)
-		//opengl.CheckWireframeToggle()
-		//diagnostics.CheckDebugToggle()
 		//vehicle.CheckColorOverlayToggle()
 		//checkTextToggles()
 
@@ -125,14 +137,10 @@ func main() {
 		gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 		//RenderSimulation(voxelArrayObjectRenderer)
 
-		//if isFpsEnabled {
 		fractal.Render()
 		fpsCounter.Render(camera)
-		//}
 
-		//if isHelpTextEnabled {
-		//	helpText.Render(camera)
-		//}
+		flatRenderer.Render(test_cube.Buffers)
 	}
 
 	for !window.ShouldClose() {

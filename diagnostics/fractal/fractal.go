@@ -55,7 +55,9 @@ func (f *FullScreenFractal) Update(elapsedTime float32) {
 	gl.UseProgram(f.program)
 	gl.Uniform1f(int32(f.timeUniformPos), elapsedTime)
 
-	normalizedPos := mgl32.Vec2{-0.5, -0.5}.Add(mgl32.Vec2{input.MousePos.X() / opengl.GetWindowSize().X(), input.MousePos.Y() / opengl.GetWindowSize().Y()})
+	normalizedPos := mgl32.Vec2{-0.5, -0.5}.Add(
+		mgl32.Vec2{input.MousePos.X() / opengl.GetWindowSize().X(),
+			input.MousePos.Y() / opengl.GetWindowSize().Y()}).Mul(2.0)
 	gl.Uniform2f(f.mouseUniformPos, normalizedPos.X(), normalizedPos.Y())
 }
 
