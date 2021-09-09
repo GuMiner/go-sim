@@ -2,7 +2,6 @@ package basics
 
 import (
 	"sim/common/opengl"
-	"sim/common/opengl/geometry"
 
 	"github.com/go-gl/gl/v4.5-core/gl"
 	"github.com/go-gl/mathgl/mgl32"
@@ -28,9 +27,8 @@ func NewFlatRendererProgram() *FlatRendererProgram {
 	return &program
 }
 
-func (r *FlatRendererProgram) Render(positionBuffer *geometry.PositionBuffer) {
+func (r *FlatRendererProgram) UseProgram() {
 	gl.UseProgram(r.shaderProgram)
-	positionBuffer.Render()
 }
 
 func (r *FlatRendererProgram) SetColor(color mgl32.Vec3) {
@@ -38,7 +36,7 @@ func (r *FlatRendererProgram) SetColor(color mgl32.Vec3) {
 	gl.Uniform3f(r.colorLoc, color.X(), color.Y(), color.Z())
 }
 
-func (s *FlatRendererProgram) SetModel(model *mgl32.Mat4) {
+func (s *FlatRendererProgram) SetModelMatrix(model *mgl32.Mat4) {
 	gl.UseProgram(s.shaderProgram)
 	gl.UniformMatrix4fv(s.modelLoc, 1, false, &model[0])
 }

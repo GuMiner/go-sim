@@ -83,23 +83,36 @@ func main() {
 	textRenderer := text.NewTextRenderer(commonConfig.Config.Text.FontFile)
 	defer textRenderer.Delete()
 
-	// Really bad flat renderer with parameters that belong on models
 	flatRenderer := basics.NewFlatRendererProgram()
 	defer flatRenderer.Delete()
 
-	flatRenderer.SetColor(mgl32.Vec3{0.0, 1.0, 0.0})
+	depthRenderer := shadow.NewDepthRenderer()
+	defer depthRenderer.Delete()
 
-	modelMatrix := mgl32.Scale3D(10.0, 10.0, 10.0)
-	flatRenderer.SetModel(&modelMatrix)
+	shadowLitRenderer := basics.NewShadowLitRendererProgram()
+	defer shadowLitRenderer.Delete()
 
-	test_cube := geometry.NewCube()
+	test_cube := geometry.NewShadedCube() //geometry.NewCube()
 	defer test_cube.Delete()
+
+	var test_cubes []*geometry.ShadedCube
+	for i := 0; i < 10; i++ {
+		for j := 0; j < 10; j++ {
+			for k := 0; k < 10; k++ {
+				new_cube := geometry.NewShadedCube()
+				new_cube.Position = mgl32.Translate3D(float32(i)*2.0, float32(j)*2.0, float32(k)*2.0)
+				defer new_cube.Delete()
+
+				test_cubes = append(test_cubes, new_cube)
+			}
+		}
+	}
 
 	fpsSentence := text.NewSentence(textRenderer, mgl32.Vec3{0, 0, 0}, mgl32.Vec3{0, 1, 0})
 	fpsCounter := NewFpsCounter(fpsSentence, 1.0, mgl32.Vec3{-0.4, 0.4, 0.01}) // -0.42, 0.33
 
 	var renderers []renderer.Renderer
-	renderers = append(renderers, textRenderer, flatRenderer)
+	renderers = append(renderers, textRenderer, flatRenderer, depthRenderer, shadowLitRenderer)
 
 	camera := NewCamera(
 		config.Config.Camera.GetDefaultPos(),
@@ -140,7 +153,18 @@ func main() {
 		fractal.Render()
 		fpsCounter.Render(camera)
 
-		flatRenderer.Render(test_cube.Buffers)
+		//flatRenderer.UseProgram()
+		//flatRenderer.SetModelMatrix(&test_cube.Position)
+		//flatRenderer.SetColor(test_cube.Color)
+
+		shadowLitRenderer.UseProgram(mgl32.Vec3{1, 1, 1})
+		shadowLitRenderer.SetModelMatrix(&test_cube.Position)
+		test_cube.Buffers.Render()
+
+		for _, cube := range test_cubes {
+			shadowLitRenderer.SetModelMatrix(&cube.Position)
+			cube.Buffers.Render()
+		}
 	}
 
 	for !window.ShouldClose() {
@@ -152,26 +176,35 @@ func main() {
 		renderer.UpdateProjections(renderers, &projection)
 		renderer.UpdateCameras(renderers, &cameraMatrix)
 
-		//shadowBuffer.RenderToBuffer(func() {
-		//	gl.Clear(gl.DEPTH_BUFFER_BIT)
-		//	gl.CullFace(gl.FRONT)
+		shadowBuffer.RenderToBuffer(func() {
+			gl.Clear(gl.DEPTH_BUFFER_BIT)
+			gl.CullFace(gl.FRONT)
 
-		//	renderer.EnableDepthModeOnly()
-		//	RenderSimulation(voxelArrayObjectRenderer)
-		//	renderer.DisableDepthModeOnly()
+			depthRenderer.UseProgram()
+			depthRenderer.SetModelMatrix(&test_cube.Position)
+			test_cube.Buffers.Render()
 
-		//	gl.CullFace(gl.BACK)
-		//})
+			for _, cube := range test_cubes {
+				depthRenderer.SetModelMatrix(&cube.Position)
+				cube.Buffers.Render()
+			}
+
+			//	renderer.EnableDepthModeOnly()
+			//	RenderSimulation(voxelArrayObjectRenderer)
+			//	renderer.DisableDepthModeOnly()
+
+			gl.CullFace(gl.BACK)
+		})
 
 		// Prepare for normal rendering...
-		// shadowBiasMatrix := mgl32.Mat4FromRows(
-		// 	mgl32.Vec4{0.5, 0, 0, 0.5},
-		// 	mgl32.Vec4{0, 0.5, 0, 0.5},
-		// 	mgl32.Vec4{0, 0, 0.5, 0.5},
-		// 	mgl32.Vec4{0, 0, 0, 1.0})
+		shadowBiasMatrix := mgl32.Mat4FromRows(
+			mgl32.Vec4{0.5, 0, 0, 0.5},
+			mgl32.Vec4{0, 0.5, 0, 0.5},
+			mgl32.Vec4{0, 0, 0.5, 0.5},
+			mgl32.Vec4{0, 0, 0, 1.0})
 
-		// partialShadowMatrix := shadowBiasMatrix.Mul4(projection.Mul4(cameraMatrix))
-		// voxelArrayObjectRenderer.UpdateShadows(&partialShadowMatrix, shadowBuffer.GetTextureId())
+		partialShadowMatrix := shadowBiasMatrix.Mul4(projection.Mul4(cameraMatrix))
+		shadowLitRenderer.UpdateShadowTexture(&partialShadowMatrix, shadowBuffer.GetTextureId())
 
 		// Render the full display.
 		opengl.ResetViewport()
