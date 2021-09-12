@@ -66,6 +66,8 @@ func (r *ShadowBuffer) Delete() {
 func (r *ShadowBuffer) PrepareCamera() (mgl32.Mat4, mgl32.Mat4) {
 	gl.Viewport(0, 0, r.width, r.height)
 
+	// This is silly. This should be relevant to the lights and
+	//  also what is currently visible.
 	projection := mgl32.Ortho(
 		config.Config.Shadows.Projection.Left,
 		config.Config.Shadows.Projection.Right,
