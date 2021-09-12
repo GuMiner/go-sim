@@ -23,3 +23,11 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# C# files
+*.pdb
+*.cache
+Debug/
+Bin/
+obj/
+Media/

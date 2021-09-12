@@ -1,0 +1,7 @@
+Golang v2 Notes
+- https://code.visualstudio.com/
+- https://marp.app/#get-started
+
+nvcc maxmul.cu -o maxmul.dll --shared
+Must use declspec dllexport
+Windows support super minimal
