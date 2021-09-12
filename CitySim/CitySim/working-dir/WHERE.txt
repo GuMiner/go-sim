@@ -1,0 +1,3 @@
+Copied from
+E:\SDKs\ogre-sdk-v13.0.1-msvc141-x64\lib\cli\ogre-sharp-13.0.1 and 
+E:\SDKs\ogre-sdk-v13.0.1-msvc141-x64\bin
