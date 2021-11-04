@@ -3,6 +3,9 @@ Experimental simulator software
 
 # Devlog
 ## C# Switch
+### 10-31
+Exploratory terrain rendering
+
 ### 9-12
 Switching to C# with OGRE3D
 

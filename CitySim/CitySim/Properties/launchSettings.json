@@ -2,7 +2,7 @@
   "profiles": {
     "CitySim": {
       "commandName": "Project",
-      "workingDirectory": "C:\\Users\\gusgr\\Desktop\\Golang\\CitySim\\CitySim\\working-dir"
+      "workingDirectory": "C:\\Users\\gusgr\\Desktop\\CitySim\\CitySim\\CitySim\\working-dir"
     }
   }
 }

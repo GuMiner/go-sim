@@ -1,42 +1,30 @@
 ﻿using System;
+using CitySim.HUD;
+using CitySim.Workarounds;
 using org.ogre;
 
-namespace CitySim
-{
-
-
-    public class KeyListener : InputListener
-    {
-        ApplicationContext ctx;
-
-        public KeyListener(ApplicationContext ctx)
-        {
-            this.ctx = ctx;
+namespace CitySim {
+    public class KeyListener : InputListener {
+        private readonly Action stopRendering;
+        public KeyListener(Action stopRendering) {
+            this.stopRendering = stopRendering;
         }
 
-        public override bool keyPressed(KeyboardEvent evt)
-        {
-            if (evt.keysym.sym == 27)
-                ctx.getRoot().queueEndRendering();
+        public override bool keyPressed(KeyboardEvent evt) {
+            if (evt.keysym.sym == 27) {
+                stopRendering();
+            }
             return true;
         }
     }
 
-    public class Example : ApplicationContext
-    {
-        InputListener listener;
-
-        public Example()
-        {
-            listener = new KeyListener(this);
-        }
-
-        public override void setup()
-        {
+    public class Example : ApplicationContext {
+        public override void setup() {
             base.setup();
-            addInputListener(listener);
 
             var root = getRoot();
+            this.addInputListener(new KeyListener(() => root.queueEndRendering()));
+
             var scnMgr = root.createSceneManager();
 
             var shadergen = ShaderGenerator.getSingleton();
@@ -48,9 +36,12 @@ namespace CitySim
             var lightnode = scnMgr.getRootSceneNode().createChildSceneNode();
             lightnode.setPosition(0f, 10f, 15f);
             lightnode.attachObject(light);
-            Camera cam = CreateCamera(scnMgr);
 
-            var vp = getRenderWindow().addViewport(cam);
+            HudCamera cam = new HudCamera(scnMgr);
+            this.addInputListener(cam);
+            root.addFrameListener(new FLRedirect(cam));
+
+            var vp = getRenderWindow().addViewport(cam.Camera);
             vp.setBackgroundColour(new ColourValue(.3f, .3f, .3f));
 
             var ent = scnMgr.createEntity(@"Sinbad.mesh");
@@ -72,24 +63,7 @@ namespace CitySim
             node.attachObject(groundEntity);
         }
 
-        private Camera CreateCamera(SceneManager scnMgr)
-        {
-            var cam = scnMgr.createCamera("myCam");
-            cam.setAutoAspectRatio(true);
-            cam.setNearClipDistance(5);
-            cam.setFarClipDistance(0);
-            var camnode = scnMgr.getRootSceneNode().createChildSceneNode();
-            camnode.attachObject(cam);
-
-            var camman = new CameraMan(camnode);
-            camman.setStyle(CameraStyle.CS_ORBIT);
-            camman.setYawPitchDist(new Radian(0), new Radian(0.3f), 15f);
-            addInputListener(camman);
-            return cam;
-        }
-
-        static void Main()
-        {
+        static void Main() {
             Console.WriteLine(Environment.CurrentDirectory);
             var app = new Example();
             app.initApp();
