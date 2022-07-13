@@ -1,7 +1,11 @@
 #include <Ogre.h>
 #include <OgreApplicationContext.h>
 #include <OgreCameraMan.h>
-
+#include <OgreTerrain.h>
+#include <OgreTerrainGroup.h>
+#include <OgrePaging.h>
+#include <OgreTerrainPaging.h>
+#include <OgreTerrainAutoUpdateLod.h>
 #include "Population.h"
 
 #pragma once
@@ -15,6 +19,8 @@ class City :
 
 	std::map<int, bool> pressedKeys;
 	std::unique_ptr<Population> populace;
+
+	void configureTerrain(Ogre::SceneManager* sceneManager, const Ogre::Light* directionalLight, Ogre::Camera* trackingCamera);
 public:
 	City();
 	void setup() override;
