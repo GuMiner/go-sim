@@ -53,14 +53,13 @@ void City::configureTerrain(
         sceneManager, Ogre::Terrain::ALIGN_X_Z, TERRAIN_SIZE, TERRAIN_WORLD_SIZE);
     terrainGroup->setFilenameConvention(ENDLESS_TERRAIN_FILE_PREFIX, ENDLESS_TERRAIN_FILE_SUFFIX);
     terrainGroup->setOrigin(Ogre::Vector3(0, 0, 0));
-    terrainGroup->setAutoUpdateLod(Ogre::TerrainAutoUpdateLodFactory::getAutoUpdateLod(Ogre::BY_DISTANCE));
-
+    terrainGroup->setAutoUpdateLod(Ogre::TerrainAutoUpdateLodFactory::getAutoUpdateLod(Ogre::NONE));
     Ogre::TerrainGlobalOptions* mTerrainGlobals = new Ogre::TerrainGlobalOptions();
 
     // Configure global
     mTerrainGlobals->setMaxPixelError(8);
     // testing composite map
-    mTerrainGlobals->setCompositeMapDistance(3000);
+    mTerrainGlobals->setCompositeMapDistance(3000000);
     //mTerrainGlobals->setUseRayBoxDistanceCalculation(true);
     mTerrainGlobals->getDefaultMaterialGenerator()->setLightmapEnabled(false);
 
