@@ -13,72 +13,108 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Enums">
+    <Filter Include="Source Files\Sim">
+      <UniqueIdentifier>{6441d9a0-53d3-4ef9-adbd-6c99e7d90127}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sim">
+      <UniqueIdentifier>{f7935a16-c752-4002-bce7-61d3a15ad8cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sim\Enums">
       <UniqueIdentifier>{d9dc4ddd-bf03-4f9d-b113-a11959ede9ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Display">
+      <UniqueIdentifier>{02d8b0ad-f3d5-4211-9a4a-0cd042077903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Display">
+      <UniqueIdentifier>{0caf9fa0-9c17-4a8f-9a63-68fd02c57f2d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="City.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Person.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="JobBoard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Building.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Company.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Job.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Resources.h">
-      <Filter>Header Files\Enums</Filter>
+      <Filter>Header Files\Sim\Enums</Filter>
     </ClInclude>
     <ClInclude Include="PersonState.h">
-      <Filter>Header Files\Enums</Filter>
-    </ClInclude>
-    <ClInclude Include="Internet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Population.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Sim\Enums</Filter>
     </ClInclude>
     <ClInclude Include="SinusoidalTerrainGenerator.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Company.h">
+      <Filter>Header Files\Sim</Filter>
+    </ClInclude>
+    <ClInclude Include="Internet.h">
+      <Filter>Header Files\Sim</Filter>
+    </ClInclude>
+    <ClInclude Include="Job.h">
+      <Filter>Header Files\Sim</Filter>
+    </ClInclude>
+    <ClInclude Include="JobBoard.h">
+      <Filter>Header Files\Sim</Filter>
+    </ClInclude>
+    <ClInclude Include="Person.h">
+      <Filter>Header Files\Sim</Filter>
+    </ClInclude>
+    <ClInclude Include="Population.h">
+      <Filter>Header Files\Sim</Filter>
+    </ClInclude>
+    <ClInclude Include="Building.h">
+      <Filter>Header Files\Sim</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation.h">
+      <Filter>Header Files\Sim</Filter>
+    </ClInclude>
+    <ClInclude Include="FlatCity.h">
+      <Filter>Header Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="FpsCounter.h">
+      <Filter>Header Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="FlatSimDisplay.h">
+      <Filter>Header Files\Display</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="City.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Person.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="JobBoard.cpp">
+    <ClCompile Include="SinusoidalTerrainGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Building.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Sim</Filter>
     </ClCompile>
     <ClCompile Include="Company.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Job.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Sim</Filter>
     </ClCompile>
     <ClCompile Include="Internet.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Sim</Filter>
+    </ClCompile>
+    <ClCompile Include="Job.cpp">
+      <Filter>Source Files\Sim</Filter>
+    </ClCompile>
+    <ClCompile Include="JobBoard.cpp">
+      <Filter>Source Files\Sim</Filter>
+    </ClCompile>
+    <ClCompile Include="Person.cpp">
+      <Filter>Source Files\Sim</Filter>
     </ClCompile>
     <ClCompile Include="Population.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Sim</Filter>
     </ClCompile>
-    <ClCompile Include="SinusoidalTerrainGenerator.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Simulation.cpp">
+      <Filter>Source Files\Sim</Filter>
+    </ClCompile>
+    <ClCompile Include="FlatCity.cpp">
+      <Filter>Source Files\Display</Filter>
+    </ClCompile>
+    <ClCompile Include="FpsCounter.cpp">
+      <Filter>Source Files\Display</Filter>
+    </ClCompile>
+    <ClCompile Include="FlatSimDisplay.cpp">
+      <Filter>Source Files\Display</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

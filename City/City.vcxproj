@@ -144,6 +144,9 @@
     <ClInclude Include="Building.h" />
     <ClInclude Include="City.h" />
     <ClInclude Include="Company.h" />
+    <ClInclude Include="FlatCity.h" />
+    <ClInclude Include="FlatSimDisplay.h" />
+    <ClInclude Include="FpsCounter.h" />
     <ClInclude Include="Internet.h" />
     <ClInclude Include="Job.h" />
     <ClInclude Include="JobBoard.h" />
@@ -151,17 +154,22 @@
     <ClInclude Include="PersonState.h" />
     <ClInclude Include="Population.h" />
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="Simulation.h" />
     <ClInclude Include="SinusoidalTerrainGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="City.cpp" />
     <ClCompile Include="Company.cpp" />
+    <ClCompile Include="FlatCity.cpp" />
+    <ClCompile Include="FlatSimDisplay.cpp" />
+    <ClCompile Include="FpsCounter.cpp" />
     <ClCompile Include="Internet.cpp" />
     <ClCompile Include="Job.cpp" />
     <ClCompile Include="JobBoard.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="Population.cpp" />
+    <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="SinusoidalTerrainGenerator.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

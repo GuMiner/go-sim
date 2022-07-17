@@ -1,6 +1,7 @@
 #include "SinusoidalTerrainGenerator.h"
 #include <stdlib.h>
 #include <math.h>
+#include <iostream>
 #include "OgreMath.h"
 
 
