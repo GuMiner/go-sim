@@ -147,6 +147,8 @@
     <ClInclude Include="FlatCity.h" />
     <ClInclude Include="FlatSimDisplay.h" />
     <ClInclude Include="FpsCounter.h" />
+    <ClInclude Include="GameGrid.h" />
+    <ClInclude Include="GridCell.h" />
     <ClInclude Include="Internet.h" />
     <ClInclude Include="Job.h" />
     <ClInclude Include="JobBoard.h" />
@@ -154,6 +156,7 @@
     <ClInclude Include="PersonState.h" />
     <ClInclude Include="Population.h" />
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="ScreenMap.h" />
     <ClInclude Include="Simulation.h" />
     <ClInclude Include="SinusoidalTerrainGenerator.h" />
   </ItemGroup>
@@ -164,11 +167,14 @@
     <ClCompile Include="FlatCity.cpp" />
     <ClCompile Include="FlatSimDisplay.cpp" />
     <ClCompile Include="FpsCounter.cpp" />
+    <ClCompile Include="GameGrid.cpp" />
+    <ClCompile Include="GridCell.cpp" />
     <ClCompile Include="Internet.cpp" />
     <ClCompile Include="Job.cpp" />
     <ClCompile Include="JobBoard.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="Population.cpp" />
+    <ClCompile Include="ScreenMap.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="SinusoidalTerrainGenerator.cpp" />
   </ItemGroup>

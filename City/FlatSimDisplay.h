@@ -2,6 +2,7 @@
 #include <SFML\Graphics.hpp>
 
 #include "Simulation.h"
+#include "ScreenMap.h"
 
 class FlatSimDisplay
 {
@@ -12,11 +13,11 @@ class FlatSimDisplay
     float lastTime;
 
     Simulation simulation;
-    void UpdateSimulationDisplay();
+    void UpdateSimulationDisplay(ScreenMap& screenMap);
 
 public:
     FlatSimDisplay();
-    void Update(float currentTime);
+    void Update(float currentTime, ScreenMap& screenMap);
     void Render(sf::RenderWindow& window);
 };
 

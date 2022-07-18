@@ -11,31 +11,42 @@ FlatSimDisplay::FlatSimDisplay()
 	sprite.setTexture(texture);
 }
 
-void FlatSimDisplay::UpdateSimulationDisplay()
+void FlatSimDisplay::UpdateSimulationDisplay(ScreenMap& screenMap)
 {
 	sf::Uint8* pixels = new sf::Uint8[1600 * 900 * 4]; // RGBA
+
+	// Reset to black
 	for (int i = 0; i < 1600; i++)
 	{
 		for (int j = 0; j < 900; j++)
 		{
-			pixels[(j * 1600 + i) * 4 + 0] = rand() % 256;
-			pixels[(j * 1600 + i) * 4 + 1] = rand() % 256;
-			pixels[(j * 1600 + i) * 4 + 2] = rand() % 256;
-			pixels[(j * 1600 + i) * 4 + 3] = rand() % 256;
+			pixels[(j * 1600 + i) * 4 + 0] = 0;
+			pixels[(j * 1600 + i) * 4 + 1] = 0;
+			pixels[(j * 1600 + i) * 4 + 2] = 0;
+			pixels[(j * 1600 + i) * 4 + 3] = 255;
 		}
 	}
+
+	// Draw game grid
+	sf::Vector2f minGridVisible = screenMap.ScreenToMap(sf::Vector2f(0.0f, 0.0f));
+	sf::Vector2f maxGridVisible = screenMap.ScreenToMap(sf::Vector2f(1.0f, 1.0f));
+	
+	// TODO finish this later.
+	// Iterate visible regions
+	// Draw these as hashed on the map
+	// Avoid drawing outside the display.
 
 	texture.update(pixels);
 	delete[] pixels;
 }
 
-void FlatSimDisplay::Update(float currentTime)
+void FlatSimDisplay::Update(float currentTime, ScreenMap& screenMap)
 {
 	lastTextureUpdate += (currentTime - lastTime);
 	if (lastTextureUpdate > sf::milliseconds(66).asSeconds())
 	{
 		// Avoid too frequent updates.
-		UpdateSimulationDisplay();
+		UpdateSimulationDisplay(ScreenMap & screenMap);
 		lastTextureUpdate = 0.0f;
 	}
 

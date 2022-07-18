@@ -1,6 +1,13 @@
 #include <iostream>
 #include "FlatCity.h"
 
+FlatCity::FlatCity()
+    : simDisplay(),
+      screenMap()
+{
+}
+
+
 // Handles GUI-based events, such as closing the application, resizing the window, etc.
 bool FlatCity::HandleEvents(bool alive)
 {
@@ -14,20 +21,38 @@ bool FlatCity::HandleEvents(bool alive)
         }
         else if (event.type == sf::Event::KeyPressed)
         {
-            if (event.key.code   == sf::Keyboard::Escape)
+            switch (event.key.code)
             {
+            case sf::Keyboard::Escape:
                 alive = false;
+                break;
+            case sf::Keyboard::Left:
+                screenMap.Translate(-1.0f, 0.0f);
+                break;
+            case sf::Keyboard::Right:
+                screenMap.Translate(1.0f, 0.0f);
+                break;
+            case sf::Keyboard::Up:
+                screenMap.Translate(0.0f, 1.0f);
+                break;
+            case sf::Keyboard::Down:
+                screenMap.Translate(0.0f, -1.0f);
+                break;
+            case sf::Keyboard::Add:
+                screenMap.Scale(2.0f);
+                break;
+            case sf::Keyboard::Subtract:
+                screenMap.Scale(0.5f);
+                break;
+            default:
+                break;
             }
+
+            screenMap.Log();
         }
     }
 
     return alive;
-}
-
-FlatCity::FlatCity()
-    : simDisplay()
-{
-
 }
 
 void FlatCity::Setup()
@@ -51,7 +76,7 @@ void FlatCity::Render(sf::Time elapsedTime)
 {
     window->clear(sf::Color::Black);
     
-    simDisplay.Update(elapsedTime.asSeconds());
+    simDisplay.Update(elapsedTime.asSeconds(), screenMap);
     simDisplay.Render(*window.get());
 
     fps->Update(elapsedTime.asSeconds());

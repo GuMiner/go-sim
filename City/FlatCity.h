@@ -6,17 +6,18 @@
 #include "FpsCounter.h"
 #include "FlatSimDisplay.h"
 
+#include "ScreenMap.h"
+
 class FlatCity
 {
 	std::unique_ptr<sf::RenderWindow> window;
 	std::unique_ptr<FpsCounter> fps;
 
 	FlatSimDisplay simDisplay;
+	ScreenMap screenMap;
 
-	// Handles GUI-based events, such as closing the application, resizing the window, etc.
 	bool HandleEvents(bool alive);
 
-	// Renders the scene.
 	void Render(sf::Time elapsedTime);
 
 public:

@@ -2,11 +2,23 @@
 #include <memory>
 
 #include "Population.h"
+#include "GameGrid.h"
 
 class Simulation
 {
-	std::unique_ptr<Population> populace;
+	Population population;
+	GameGrid gameGrid;
+
+	bool isPaused;
+	float lastTime;
+	float gameTime;
 
 public:
+	Simulation();
+
+	GameGrid& GetGrid();
+
+	void Update(float currentTime);
+	void PauseResume();
 };
 
