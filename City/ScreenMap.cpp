@@ -2,21 +2,21 @@
 #include "ScreenMap.h"
 
 ScreenMap::ScreenMap() :
-	offset(0.0f, 0.0f), scale(128.0f) // ~10x10 visible
+	offset(0.0f, 0.0f), scale(64.0f) // ~10x10 visible
 {
 
 }
 
 sf::Vector2f ScreenMap::ScreenToMap(sf::Vector2f screenPos)
 {
-	sf::Vector2f windowSize(1600, 900); // TODO 
-	sf::Vector2f centeredPos = screenPos - sf::Vector2f(0.5f, 0.5f);
-
-	sf::Vector2f windowScaledPos = sf::Vector2f(
-		centeredPos.x * windowSize.x,
-		centeredPos.y * windowSize.y);
-	return windowScaledPos * (1.0f / scale) + offset;
+	return screenPos * (1.0f / scale) + offset;
 }
+
+sf::Vector2f ScreenMap::MapToScreen(sf::Vector2f mapPos)
+{
+	return (mapPos - offset) * scale;
+}
+
 
 void ScreenMap::Translate(float x, float y)
 {

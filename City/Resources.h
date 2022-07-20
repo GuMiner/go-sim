@@ -20,6 +20,6 @@ public:
 
 	static int LandMax()
 	{
-		return (int)Resource::Sealand;
+		return 1 + (int)Resource::Sealand;
 	}
 };
