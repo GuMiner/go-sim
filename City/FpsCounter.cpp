@@ -1,22 +1,16 @@
 #include <iostream>
 #include <sstream>
 #include "FpsCounter.h"
+#include "FontManager.h"
 
 FpsCounter::FpsCounter():
     lastTime(0.0f), timeTotal(0.1f), frameTotal(1)
 {
-    font = std::unique_ptr<sf::Font>(new sf::Font());
-    if (!font->loadFromFile("media/fonts/DejaVuSans.ttf"))
-    {
-        std::cout << "ERROR: Could not load the font!" << std::endl;
-    }
-
     fpsText = std::unique_ptr<sf::Text>(new sf::Text());
-    fpsText->setFont(*font);
+    fpsText->setFont(*FontManager::Get()->Font());
     fpsText->setCharacterSize(24);
     fpsText->setFillColor(sf::Color::Green);
     fpsText->setString("FPS: ");
-
 }
 
 void FpsCounter::Update(float currentTime)

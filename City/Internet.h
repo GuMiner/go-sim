@@ -2,7 +2,6 @@
 #include <memory>
 #include "JobBoard.h"
 
-
 class Internet
 {
 	std::unique_ptr<JobBoard> jobBoard;

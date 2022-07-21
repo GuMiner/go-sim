@@ -1,5 +1,6 @@
 #include <iostream>
 #include "FlatCity.h"
+#include "FontManager.h"
 
 FlatCity::FlatCity()
     : simDisplay(),
@@ -50,6 +51,10 @@ bool FlatCity::HandleEvents(bool alive)
 
             screenMap.Log();
         }
+        else if (event.type == sf::Event::MouseMoved)
+        {
+            screenMap.UpdateMousePos(event.mouseMove.x, event.mouseMove.y);
+        }
     }
 
     return alive;
@@ -68,8 +73,13 @@ void FlatCity::Setup()
     window->setFramerateLimit(60);
     window->setPosition(sf::Vector2i(100, 10));
 
+    // Font
+    FontManager::Enable();
+
     // FPS
     fps = std::unique_ptr<FpsCounter>(new FpsCounter());
+
+    simDisplay.Setup();
 }
 
 void FlatCity::Render(sf::Time elapsedTime)

@@ -11,7 +11,6 @@ class FpsCounter
     float timeTotal;
     int frameTotal;
 
-    std::unique_ptr<sf::Font> font;
     std::unique_ptr<sf::Text> fpsText;
 
 public:

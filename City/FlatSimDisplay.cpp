@@ -1,5 +1,7 @@
-#include "FlatSimDisplay.h"
 #include <iostream>
+#include <sstream>
+#include "FlatSimDisplay.h"
+#include "FontManager.h"
 
 int min(int x1, int x2)
 {
@@ -17,11 +19,21 @@ FlatSimDisplay::FlatSimDisplay()
 	:texture(), sprite(), lastTextureUpdate(0.0f), lastTime(0.0f),
 	simulation()
 {
+}
+
+void FlatSimDisplay::Setup()
+{
 	texture.create(1600, 900);
 	texture.setRepeated(false);
 	texture.setSmooth(false);
 
 	sprite.setTexture(texture);
+
+	cashBalance.setFont(*FontManager::Get()->Font());
+	cashBalance.setCharacterSize(24);
+	cashBalance.setFillColor(sf::Color::Green);
+	cashBalance.setString("$: ");
+	cashBalance.setPosition(sf::Vector2f(0, 40));
 }
 
 // This is for debugging, so this isn't the nicest algorithm out there.
@@ -146,16 +158,32 @@ void FlatSimDisplay::UpdateSimulationDisplay(ScreenMap& screenMap)
 	}
 
 	// Test cube
-	DrawLine(pixels, 100, 100, 100, 200, sf::Color::Green);
-	DrawLine(pixels, 100, 200, 200, 200, sf::Color::Green);
-	DrawLine(pixels, 100, 100, 200, 100, sf::Color::Green);
-	DrawLine(pixels, 200, 100, 200, 200, sf::Color::Green);
+	// DrawLine(pixels, 100, 100, 100, 200, sf::Color::Green);
+	// DrawLine(pixels, 100, 200, 200, 200, sf::Color::Green);
+	// DrawLine(pixels, 100, 100, 200, 100, sf::Color::Green);
+	// DrawLine(pixels, 200, 100, 200, 200, sf::Color::Green);
+ 
+	// DrawLine(pixels, 100, 100, 200, 200, sf::Color::Green);
+	// DrawLine(pixels, 200, 100, 100, 200, sf::Color::Green);
 
-	DrawLine(pixels, 100, 100, 200, 200, sf::Color::Green);
-	DrawLine(pixels, 200, 100, 100, 200, sf::Color::Green);
+	// Current mouse selection
+	sf::Vector2f mousePos = screenMap.MapMousePos();
+	sf::Vector2f selectionMin = screenMap.MapToScreen(sf::Vector2f((int)mousePos.x, (int)mousePos.y));
+	sf::Vector2f selectionMax = screenMap.MapToScreen(sf::Vector2f((int)(mousePos.x + 1), (int)(mousePos.y + 1)));
+	DrawLine(pixels, selectionMin.x, selectionMin.y, selectionMax.x, selectionMin.y, sf::Color::Green);
+	DrawLine(pixels, selectionMin.x, selectionMin.y, selectionMin.x, selectionMax.y, sf::Color::Green);
+	DrawLine(pixels, selectionMax.x, selectionMin.y, selectionMax.x, selectionMax.y, sf::Color::Green);
+	DrawLine(pixels, selectionMin.x, selectionMax.y, selectionMax.x, selectionMax.y, sf::Color::Green);
 
 	texture.update(pixels);
 	delete[] pixels;
+}
+
+void FlatSimDisplay::UpdateSimulationHUD()
+{
+	std::stringstream cashString;
+	cashString << "$: " << simulation.GetTreasury().GetBalance();
+	cashBalance.setString(cashString.str());
 }
 
 void FlatSimDisplay::Update(float currentTime, ScreenMap& screenMap)
@@ -165,6 +193,8 @@ void FlatSimDisplay::Update(float currentTime, ScreenMap& screenMap)
 	{
 		// Avoid too frequent updates.
 		UpdateSimulationDisplay(screenMap);
+		UpdateSimulationHUD();
+
 		lastTextureUpdate = 0.0f;
 	}
 
@@ -174,4 +204,5 @@ void FlatSimDisplay::Update(float currentTime, ScreenMap& screenMap)
 void FlatSimDisplay::Render(sf::RenderWindow& window)
 {
 	window.draw(sprite);
+	window.draw(cashBalance);
 }

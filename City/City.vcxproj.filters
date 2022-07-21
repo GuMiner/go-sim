@@ -84,6 +84,12 @@
     <ClInclude Include="ScreenMap.h">
       <Filter>Header Files\Display</Filter>
     </ClInclude>
+    <ClInclude Include="Treasury.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FontManager.h">
+      <Filter>Header Files\Display</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="City.cpp">
@@ -132,6 +138,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ScreenMap.cpp">
+      <Filter>Source Files\Display</Filter>
+    </ClCompile>
+    <ClCompile Include="Treasury.cpp">
+      <Filter>Source Files\Sim</Filter>
+    </ClCompile>
+    <ClCompile Include="FontManager.cpp">
       <Filter>Source Files\Display</Filter>
     </ClCompile>
   </ItemGroup>

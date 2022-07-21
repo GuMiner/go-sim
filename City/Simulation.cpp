@@ -1,16 +1,14 @@
 #include "Simulation.h"
 
 Simulation::Simulation()
-	: population(), gameGrid(),
+	: population(), gameGrid(), treasury(),
 	  isPaused(false), lastTime(0.0f), gameTime(0.0f)
 {
 
 }
 
-GameGrid& Simulation::GetGrid()
-{
-	return gameGrid;
-}
+GameGrid& Simulation::GetGrid() { return gameGrid; }
+Treasury& Simulation::GetTreasury() { return treasury; }
 
 void Simulation::Update(float currentTime)
 {

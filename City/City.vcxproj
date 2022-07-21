@@ -146,6 +146,7 @@
     <ClInclude Include="Company.h" />
     <ClInclude Include="FlatCity.h" />
     <ClInclude Include="FlatSimDisplay.h" />
+    <ClInclude Include="FontManager.h" />
     <ClInclude Include="FpsCounter.h" />
     <ClInclude Include="GameGrid.h" />
     <ClInclude Include="GridCell.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="ScreenMap.h" />
     <ClInclude Include="Simulation.h" />
     <ClInclude Include="SinusoidalTerrainGenerator.h" />
+    <ClInclude Include="Treasury.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Building.cpp" />
@@ -166,6 +168,7 @@
     <ClCompile Include="Company.cpp" />
     <ClCompile Include="FlatCity.cpp" />
     <ClCompile Include="FlatSimDisplay.cpp" />
+    <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="FpsCounter.cpp" />
     <ClCompile Include="GameGrid.cpp" />
     <ClCompile Include="GridCell.cpp" />
@@ -177,6 +180,7 @@
     <ClCompile Include="ScreenMap.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="SinusoidalTerrainGenerator.cpp" />
+    <ClCompile Include="Treasury.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
