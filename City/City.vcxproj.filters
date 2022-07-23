@@ -90,6 +90,15 @@
     <ClInclude Include="FontManager.h">
       <Filter>Header Files\Display</Filter>
     </ClInclude>
+    <ClInclude Include="Zone.h">
+      <Filter>Header Files\Sim\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStateCommand.h">
+      <Filter>Header Files\Sim\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeShifts.h">
+      <Filter>Header Files\Sim\Enums</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="City.cpp">
@@ -145,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="FontManager.cpp">
       <Filter>Source Files\Display</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeShifts.cpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

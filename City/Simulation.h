@@ -13,6 +13,8 @@ class Simulation
 
 	bool isPaused;
 	float lastTime;
+
+
 	float gameTime;
 
 public:
@@ -23,5 +25,7 @@ public:
 
 	void Update(float currentTime);
 	void PauseResume();
+
+	void BuyTile(int x, int y);
 };
 

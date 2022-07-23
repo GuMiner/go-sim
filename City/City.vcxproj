@@ -149,6 +149,7 @@
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="FpsCounter.h" />
     <ClInclude Include="GameGrid.h" />
+    <ClInclude Include="GameStateCommand.h" />
     <ClInclude Include="GridCell.h" />
     <ClInclude Include="Internet.h" />
     <ClInclude Include="Job.h" />
@@ -160,7 +161,9 @@
     <ClInclude Include="ScreenMap.h" />
     <ClInclude Include="Simulation.h" />
     <ClInclude Include="SinusoidalTerrainGenerator.h" />
+    <ClInclude Include="TimeShifts.h" />
     <ClInclude Include="Treasury.h" />
+    <ClInclude Include="Zone.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Building.cpp" />
@@ -180,6 +183,7 @@
     <ClCompile Include="ScreenMap.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="SinusoidalTerrainGenerator.cpp" />
+    <ClCompile Include="TimeShifts.cpp" />
     <ClCompile Include="Treasury.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

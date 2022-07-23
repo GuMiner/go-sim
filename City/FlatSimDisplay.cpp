@@ -34,6 +34,12 @@ void FlatSimDisplay::Setup()
 	cashBalance.setFillColor(sf::Color::Green);
 	cashBalance.setString("$: ");
 	cashBalance.setPosition(sf::Vector2f(0, 40));
+
+	timeDisplay.setFont(*FontManager::Get()->Font());
+	timeDisplay.setCharacterSize(24);
+	timeDisplay.setFillColor(sf::Color::Black);
+	timeDisplay.setString("Day: ...");
+	timeDisplay.setPosition(sf::Vector2f(0, 80));
 }
 
 // This is for debugging, so this isn't the nicest algorithm out there.
@@ -132,6 +138,7 @@ void FlatSimDisplay::UpdateSimulationDisplay(ScreenMap& screenMap)
 	{
 		for (int y = (int)minGridVisible.y; y < (int)maxGridVisible.y; y++)
 		{
+			// Draw cell type
 			GridCell& cell = simulation.GetGrid().Get(x, y);
 			sf::Color color = sf::Color::Green;
 			switch (cell.GetResource())
@@ -154,22 +161,29 @@ void FlatSimDisplay::UpdateSimulationDisplay(ScreenMap& screenMap)
 			sf::Vector2f lr = screenMap.MapToScreen(sf::Vector2f(x + 1, y + 1));
 
 			FillRect(pixels, ul.x, ul.y, lr.x - ul.x, lr.y - ul.y, color);
+
+			// Draw zoning
+			switch (cell.GetZone())
+			{
+			case Zone::UNRESTRICTED:
+				color = sf::Color::Green; break;
+			case Zone::BOUGHT:
+				color = sf::Color::Cyan; break;
+			case Zone::UNINCORPORATED: break;
+			default: break;
+			}
+			
+			// Hash marks
+			DrawLine(pixels, ul.x, ul.y, lr.x, lr.y, color);
+			DrawLine(pixels, ul.x + (lr.x - ul.x) / 2, ul.y, lr.x, ul.y + (lr.y - ul.y) / 2, color);
+			DrawLine(pixels, ul.x, ul.y + (lr.y - ul.y) / 2, ul.x + (lr.x - ul.x) / 2, lr.y, color);
 		}
 	}
 
-	// Test cube
-	// DrawLine(pixels, 100, 100, 100, 200, sf::Color::Green);
-	// DrawLine(pixels, 100, 200, 200, 200, sf::Color::Green);
-	// DrawLine(pixels, 100, 100, 200, 100, sf::Color::Green);
-	// DrawLine(pixels, 200, 100, 200, 200, sf::Color::Green);
- 
-	// DrawLine(pixels, 100, 100, 200, 200, sf::Color::Green);
-	// DrawLine(pixels, 200, 100, 100, 200, sf::Color::Green);
-
 	// Current mouse selection
-	sf::Vector2f mousePos = screenMap.MapMousePos();
-	sf::Vector2f selectionMin = screenMap.MapToScreen(sf::Vector2f((int)mousePos.x, (int)mousePos.y));
-	sf::Vector2f selectionMax = screenMap.MapToScreen(sf::Vector2f((int)(mousePos.x + 1), (int)(mousePos.y + 1)));
+	sf::Vector2i mousePos = screenMap.RoundToGrid(screenMap.MapMousePos());
+	sf::Vector2f selectionMin = screenMap.MapToScreen(sf::Vector2f(mousePos.x, mousePos.y));
+	sf::Vector2f selectionMax = screenMap.MapToScreen(sf::Vector2f((mousePos.x + 1), (mousePos.y + 1)));
 	DrawLine(pixels, selectionMin.x, selectionMin.y, selectionMax.x, selectionMin.y, sf::Color::Green);
 	DrawLine(pixels, selectionMin.x, selectionMin.y, selectionMin.x, selectionMax.y, sf::Color::Green);
 	DrawLine(pixels, selectionMax.x, selectionMin.y, selectionMax.x, selectionMax.y, sf::Color::Green);
@@ -184,6 +198,8 @@ void FlatSimDisplay::UpdateSimulationHUD()
 	std::stringstream cashString;
 	cashString << "$: " << simulation.GetTreasury().GetBalance();
 	cashBalance.setString(cashString.str());
+
+	// timeDisplay.setString(simulation.GetTi)
 }
 
 void FlatSimDisplay::Update(float currentTime, ScreenMap& screenMap)
@@ -198,6 +214,42 @@ void FlatSimDisplay::Update(float currentTime, ScreenMap& screenMap)
 		lastTextureUpdate = 0.0f;
 	}
 
+	if (screenMap.LeftClickPending())
+	{
+		sf::Vector2i clickedPos = screenMap.RoundToGrid(screenMap.MapClickPos());
+
+		// For now, only buy tiles
+		simulation.BuyTile(clickedPos.x, clickedPos.y);
+	}
+
+	sf::Keyboard::Key command = screenMap.NextQueuedCommand();
+
+	sf::Vector2i currentPos = screenMap.RoundToGrid(screenMap.MapMousePos());
+	GridCell& cell = simulation.GetGrid().Get(currentPos.x, currentPos.y);
+	while (command != 0)
+	{
+		switch (command)
+		{
+		case sf::Keyboard::Key::Z:
+			// Toggle zoning of the selected tile.
+			if (cell.GetZone() != Zone::UNINCORPORATED)
+			{
+				Zone nextZone = (Zone)((int)cell.GetZone() + 1);
+				if (nextZone == Zone::MAX_ZONE)
+				{
+					nextZone = Zone::BOUGHT; // MIN_ZONE
+				}
+
+				cell.SetZone(nextZone);
+				std::cout << "Toggling " << currentPos.x << ", " << currentPos.y << ": " << (int)nextZone << std::endl;
+			}
+			break;
+		default: break;
+		}
+		command = screenMap.NextQueuedCommand();
+	}
+	
+
 	lastTime = currentTime;
 }
 
@@ -205,4 +257,5 @@ void FlatSimDisplay::Render(sf::RenderWindow& window)
 {
 	window.draw(sprite);
 	window.draw(cashBalance);
+	window.draw(timeDisplay);
 }

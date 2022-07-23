@@ -13,6 +13,7 @@ class FlatSimDisplay
     float lastTime;
 
     sf::Text cashBalance;
+    sf::Text timeDisplay;
 
     Simulation simulation;
     void UpdateSimulationDisplay(ScreenMap& screenMap);

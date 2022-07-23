@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "GameGrid.h"
 
 GameGrid::GameGrid()
@@ -28,6 +30,7 @@ GridCell& GameGrid::Get(int x, int y)
 	if (grid.count(x) == 0 || grid[x].count(y) == 0)
 	{
 		Generate(x, y);
+		std::cout << "Generated " << x << ", " << y << std::endl;
 	}
 
 	return grid[x][y];

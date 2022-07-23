@@ -1,3 +1,5 @@
+#include "Zone.h"
+
 #include "Simulation.h"
 
 Simulation::Simulation()
@@ -21,7 +23,20 @@ void Simulation::Update(float currentTime)
 
 	lastTime = currentTime;
 }
+
 void Simulation::PauseResume()
 {
 	isPaused = !isPaused;
+}
+
+void Simulation::BuyTile(int x, int y)
+{
+	GridCell& gridCell = gameGrid.Get(x, y);
+	if (gridCell.GetZone() == Zone::UNINCORPORATED)
+	{
+		if (treasury.BuyTile())
+		{
+			gridCell.SetZone(Zone::BOUGHT);
+		}
+	}
 }

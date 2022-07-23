@@ -42,9 +42,11 @@ bool FlatCity::HandleEvents(bool alive)
             case sf::Keyboard::Add:
                 screenMap.Scale(2.0f);
                 break;
-            case sf::Keyboard::Subtract:
+            case sf::Keyboard::Subtract: 
                 screenMap.Scale(0.5f);
                 break;
+            case sf::Keyboard::Z:
+                screenMap.SendGameCommand(event.key.code);
             default:
                 break;
             }
@@ -54,6 +56,11 @@ bool FlatCity::HandleEvents(bool alive)
         else if (event.type == sf::Event::MouseMoved)
         {
             screenMap.UpdateMousePos(event.mouseMove.x, event.mouseMove.y);
+        }
+        else if (event.type == sf::Event::MouseButtonPressed &&
+            event.mouseButton.button == sf::Mouse::Left)
+        {
+            screenMap.LeftMouseClicked(event.mouseButton.x, event.mouseButton.y);
         }
     }
 

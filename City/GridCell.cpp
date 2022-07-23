@@ -3,12 +3,16 @@
 GridCell::GridCell() { }
 
 GridCell::GridCell(Resource resource)
-	: resource(resource)
+	: resource(resource), zone(Zone::UNINCORPORATED)
 {
 
 }
 
-Resource GridCell::GetResource() const
+void GridCell::SetZone(Zone zone)
 {
-	return resource;
+	this->zone = zone;
 }
+
+Zone GridCell::GetZone() const { return zone; }
+
+Resource GridCell::GetResource() const { return resource; }

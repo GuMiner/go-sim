@@ -3,34 +3,63 @@
 
 ScreenMap::ScreenMap() :
 	offset(0.0f, 0.0f), scale(64.0f), // ~10x10 visible
-	currentMousePos()
-{
+	currentMousePos(),
+	leftClickPending(false), mapClickedPos(),
+	queuedCommands()
+{ }
 
+sf::Vector2f ScreenMap::ScreenToMap(sf::Vector2f screenPos) { return screenPos * (1.0f / scale) + offset; }
+
+sf::Vector2f ScreenMap::MapToScreen(sf::Vector2f mapPos) { return (mapPos - offset) * scale; }
+
+sf::Vector2i ScreenMap::RoundToGrid(sf::Vector2f mapPos)
+{
+	int x = mapPos.x > 0 ? (int)mapPos.x : (int)mapPos.x - 1;
+	int y = mapPos.y > 0 ? (int)mapPos.y : (int)mapPos.y - 1;
+	return sf::Vector2i(x, y);
 }
 
-sf::Vector2f ScreenMap::ScreenToMap(sf::Vector2f screenPos)
+void ScreenMap::Translate(float x, float y) { offset += sf::Vector2f(x, y); }
+
+void ScreenMap::Scale(float z) { scale *= z; }
+
+void ScreenMap::UpdateMousePos(float x, float y) { currentMousePos = sf::Vector2f(x, y); }
+
+void ScreenMap::LeftMouseClicked(float x, float y)
 {
-	return screenPos * (1.0f / scale) + offset;
+	mapClickedPos = ScreenMap::ScreenToMap(sf::Vector2f(x, y));
+	leftClickPending = true;
 }
 
-sf::Vector2f ScreenMap::MapToScreen(sf::Vector2f mapPos)
+bool ScreenMap::LeftClickPending()
 {
-	return (mapPos - offset) * scale;
+	if (leftClickPending)
+	{
+		leftClickPending = false;
+		return true;
+	}
+
+	return false;
 }
 
-void ScreenMap::Translate(float x, float y)
+sf::Vector2f ScreenMap::MapClickPos() { return mapClickedPos; }
+
+void ScreenMap::SendGameCommand(sf::Keyboard::Key commandKey)
 {
-	offset += sf::Vector2f(x, y);
+	queuedCommands.push(commandKey);
 }
 
-void ScreenMap::Scale(float z)
+sf::Keyboard::Key ScreenMap::NextQueuedCommand()
 {
-	scale *= z;
-}
+	if (queuedCommands.empty())
+	{
+		return (sf::Keyboard::Key)0;
+	}
 
-void ScreenMap::UpdateMousePos(float x, float y)
-{
-	currentMousePos = sf::Vector2f(x, y);
+	sf::Keyboard::Key key = queuedCommands.front();
+	queuedCommands.pop();
+
+	return key;
 }
 
 sf::Vector2f ScreenMap::MapMousePos()
