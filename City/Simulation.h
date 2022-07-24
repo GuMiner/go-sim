@@ -4,6 +4,7 @@
 #include "Population.h"
 #include "GameGrid.h"
 #include "Treasury.h"
+#include "TimeShifts.h"
 
 class Simulation
 {
@@ -11,17 +12,15 @@ class Simulation
 	GameGrid gameGrid;
 	Treasury treasury;
 
+	TimeShifts gameTime;
 	bool isPaused;
-	float lastTime;
-
-
-	float gameTime;
 
 public:
 	Simulation();
 
 	GameGrid& GetGrid();
 	Treasury& GetTreasury();
+	TimeShifts& GetTime();
 
 	void Update(float currentTime);
 	void PauseResume();

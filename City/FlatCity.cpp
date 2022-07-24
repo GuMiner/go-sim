@@ -46,6 +46,7 @@ bool FlatCity::HandleEvents(bool alive)
                 screenMap.Scale(0.5f);
                 break;
             case sf::Keyboard::Z:
+            case sf::Keyboard::Space:
                 screenMap.SendGameCommand(event.key.code);
             default:
                 break;

@@ -2,9 +2,9 @@
 
 enum class Shift
 {
-	First, // Morning
-	Second, // Afternoon
-	Third, // Night
+	First, // Morning, 6 AM - 2 PM
+	Second, // Afternoon, 2 PM - 10 PM
+	Third, // Night, 10 PM - 6 AM
 	Salaried, // Midday
 	None, // Anti-salaried
 };
@@ -23,19 +23,22 @@ enum class Season
 	Summer, // growing.
 	Fall, // harvesting.
 	Winter, // prep / storing.
+	MAX_SEASON
 };
 
 class TimeShifts
 {
-	float dayScale;
 	float seasonScale;
 
 	float lastTime;
 	float gameTime;
+
 public:
 	TimeShifts();
-	void UpdateGameTime(float currentTime);
+	void UpdateGameTime(float currentTime, bool isPaused);
 
+	int GetHour() const;
+	int GetDay() const;
 	Shift GetSalariedShift() const;
 	Shift GetHourlyShift() const;
 	TimeOfDay GetTimeOfDay() const;

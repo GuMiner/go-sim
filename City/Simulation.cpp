@@ -4,24 +4,18 @@
 
 Simulation::Simulation()
 	: population(), gameGrid(), treasury(),
-	  isPaused(false), lastTime(0.0f), gameTime(0.0f)
+	  gameTime(), isPaused(false)
 {
 
 }
 
 GameGrid& Simulation::GetGrid() { return gameGrid; }
 Treasury& Simulation::GetTreasury() { return treasury; }
+TimeShifts& Simulation::GetTime() { return gameTime; }
 
 void Simulation::Update(float currentTime)
 {
-	if (!isPaused)
-	{
-		gameTime += (currentTime - lastTime);
-		
-		// Continue the simulation
-	}
-
-	lastTime = currentTime;
+	gameTime.UpdateGameTime(currentTime, isPaused);
 }
 
 void Simulation::PauseResume()

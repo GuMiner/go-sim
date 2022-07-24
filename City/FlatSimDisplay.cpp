@@ -37,7 +37,7 @@ void FlatSimDisplay::Setup()
 
 	timeDisplay.setFont(*FontManager::Get()->Font());
 	timeDisplay.setCharacterSize(24);
-	timeDisplay.setFillColor(sf::Color::Black);
+	timeDisplay.setFillColor(sf::Color::Green);
 	timeDisplay.setString("Day: ...");
 	timeDisplay.setPosition(sf::Vector2f(0, 80));
 }
@@ -199,7 +199,13 @@ void FlatSimDisplay::UpdateSimulationHUD()
 	cashString << "$: " << simulation.GetTreasury().GetBalance();
 	cashBalance.setString(cashString.str());
 
-	// timeDisplay.setString(simulation.GetTi)
+	TimeShifts& time = simulation.GetTime();
+	std::stringstream timeString;
+	timeString.precision(2);
+	timeString << "Hour: " << time.GetHour() << ". Day" << time.GetDay() << ". Shift: "
+		<< (int)time.GetHourlyShift() << ". SShift: " << (int)time.GetSalariedShift() <<
+		". TimeOfDay: " << (int)time.GetTimeOfDay() << ". Season: " << (int)time.GetSeason();
+	timeDisplay.setString(timeString.str());
 }
 
 void FlatSimDisplay::Update(float currentTime, ScreenMap& screenMap)
@@ -244,12 +250,16 @@ void FlatSimDisplay::Update(float currentTime, ScreenMap& screenMap)
 				std::cout << "Toggling " << currentPos.x << ", " << currentPos.y << ": " << (int)nextZone << std::endl;
 			}
 			break;
+		case sf::Keyboard::Key::Space:
+			simulation.PauseResume();
+			std::cout << "Toggled pause." << std::endl;
+			break;
 		default: break;
 		}
 		command = screenMap.NextQueuedCommand();
 	}
 	
-
+	simulation.Update(currentTime);
 	lastTime = currentTime;
 }
 
