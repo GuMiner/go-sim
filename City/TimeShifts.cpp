@@ -7,7 +7,11 @@ const int DayScale = 12;
 TimeShifts::TimeShifts()
 	: seasonScale(10),
 	  lastTime(0),
-	  gameTime(0)
+	  gameTime(0),
+	lastDay(0),
+	lastHour(0),
+	dayShift(false),
+	hourShift(false)
 {
 
 }
@@ -26,6 +30,26 @@ void TimeShifts::UpdateGameTime(float currentTime, bool isPaused)
 {
 	if (!isPaused) { gameTime += (currentTime - lastTime); }
 	lastTime = currentTime;
+
+	if (lastDay != GetDay())
+	{
+		lastDay = GetDay();
+		dayShift = true;
+	}
+	else
+	{
+		dayShift = false;
+	}
+
+	if (lastHour != GetHour())
+	{
+		lastHour = GetHour();
+		hourShift = true;
+	}
+	else
+	{
+		hourShift = false;
+	}
 }
 
 Shift TimeShifts::GetHourlyShift() const
@@ -58,3 +82,6 @@ Season TimeShifts::GetSeason() const
 	Season season = (Season)(day % (int)Season::MAX_SEASON);
 	return season;
 }
+
+bool TimeShifts::IsNextDay() const { return dayShift; }
+bool TimeShifts::IsNextHour() const { return hourShift; }

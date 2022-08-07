@@ -33,6 +33,12 @@ class TimeShifts
 	float lastTime;
 	float gameTime;
 
+	long lastDay;
+	bool dayShift;
+
+	long lastHour;
+	bool hourShift;
+
 public:
 	TimeShifts();
 	void UpdateGameTime(float currentTime, bool isPaused);
@@ -43,4 +49,7 @@ public:
 	Shift GetHourlyShift() const;
 	TimeOfDay GetTimeOfDay() const;
 	Season GetSeason() const;
+
+	bool IsNextDay() const;
+	bool IsNextHour() const;
 };

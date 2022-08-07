@@ -99,6 +99,12 @@
     <ClInclude Include="TimeShifts.h">
       <Filter>Header Files\Sim\Enums</Filter>
     </ClInclude>
+    <ClInclude Include="Career.h">
+      <Filter>Header Files\Sim\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="CompanyType.h">
+      <Filter>Header Files\Sim\Enums</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="City.cpp">

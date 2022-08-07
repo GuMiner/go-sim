@@ -342,10 +342,10 @@ void City::GameSetup()
     populace = std::unique_ptr<Population>(new Population());
 
     // Testing123
-    populace->AddPerson();
-    populace->AddPerson();
-    populace->AddCompany();
-    populace->Simulate();
+    //populace->AddPerson();
+    //populace->AddPerson();
+    //populace->AddCompany();
+    //populace->Simulate();
 }
 
 int main(int argc, const char* argv)

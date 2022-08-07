@@ -5,7 +5,8 @@
 unsigned int maxCompanyId;
 
 Company::Company()
-	: id(++maxCompanyId),
+	: type(CompanyType::FARM),
+	id(++maxCompanyId),
 	jobs()
 {
 }

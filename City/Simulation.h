@@ -18,8 +18,10 @@ class Simulation
 public:
 	Simulation();
 
+	Population& GetPopulation();
 	GameGrid& GetGrid();
 	Treasury& GetTreasury();
+	
 	TimeShifts& GetTime();
 
 	void Update(float currentTime);

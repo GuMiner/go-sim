@@ -7,15 +7,26 @@ unsigned int maxSSN = 0;
 
 Person::Person()
 	: ssn(++maxSSN),
-	health(255), 
+	health(255),
+	gameX(0), gameY(0),
 	job(nullptr),
 	state(PersonState::JobSearching),
+	career(Career::CompanyFounder),
 	stateChanged(true)
 {
 }
 
+Person::Person(
+	float x, float y) : Person()
+{
+	gameX = x;
+	gameY = y;
+}
+
 bool Person::hasStateChanged()
 	{ return stateChanged; }
+
+Eigen::Vector2f Person::GetPosition() const { return Eigen::Vector2f(gameX, gameY); }
 
 void Person::SearchForJob()
 {

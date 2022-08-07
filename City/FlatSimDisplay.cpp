@@ -180,6 +180,14 @@ void FlatSimDisplay::UpdateSimulationDisplay(ScreenMap& screenMap)
 		}
 	}
 
+	// Draw people.
+	for (Person* person : simulation.GetPopulation().GetPeople())
+	{
+		Eigen::Vector2f pos = person->GetPosition();
+		sf::Vector2f personPos = screenMap.MapToScreen(sf::Vector2f(pos.x(), pos.y()));
+		FillRect(pixels, (int)personPos.x, (int)personPos.y, 10, 10, sf::Color::Yellow);
+	}
+
 	// Current mouse selection
 	sf::Vector2i mousePos = screenMap.RoundToGrid(screenMap.MapMousePos());
 	sf::Vector2f selectionMin = screenMap.MapToScreen(sf::Vector2f(mousePos.x, mousePos.y));

@@ -142,8 +142,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Building.h" />
+    <ClInclude Include="Career.h" />
     <ClInclude Include="City.h" />
     <ClInclude Include="Company.h" />
+    <ClInclude Include="CompanyType.h" />
     <ClInclude Include="FlatCity.h" />
     <ClInclude Include="FlatSimDisplay.h" />
     <ClInclude Include="FontManager.h" />
